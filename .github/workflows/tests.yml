@@ -49,44 +49,12 @@ jobs:
         make env
         make version
 
-    - name: "Test :skin: option"
+    - name: "Run tests"
       run: |
         source env/conda/bin/activate sphinxcontrib-hdl-diagrams
         cd tests
-        python -m unittest test.TestSkins
-
-    - name: "Test :yosys_script: option"
-      run: |
-        source env/conda/bin/activate sphinxcontrib-hdl-diagrams
-        cd tests
-        python3 -m unittest test.TestYosysScript
-
-    - name: "Test :flatten: option"
-      run: |
-        source env/conda/bin/activate sphinxcontrib-hdl-diagrams
-        cd tests
-        python3 -m unittest test.TestFlatten
-
-    - name: "Test verilog_diagram_yosys config variable"
-      run: |
-        source env/conda/bin/activate sphinxcontrib-hdl-diagrams
-        cd tests
-        python3 -m unittest test.TestYosysType
-
-    - name: "Test nMigen input format"
-      run: |
-        source env/conda/bin/activate sphinxcontrib-hdl-diagrams
-        cd tests
-        python3 -m unittest test.TestNMigen
-
-    - name: "Test RTLIL input format"
-      run: |
-        source env/conda/bin/activate sphinxcontrib-hdl-diagrams
-        cd tests
-        python3 -m unittest test.TestRTLIL
-
-    - name: "Test compatibility package"
-      run: |
-        source env/conda/bin/activate sphinxcontrib-hdl-diagrams
-        cd tests
-        python3 -m unittest test.TestCompat
+        for item in TestSkins TestYosysScript TestFlatten TestYosysType TestNMigen TestRTLIL TestCompat; do
+          echo "::group::$item"
+          python -m unittest test."$item"
+          echo '::endgroup::'
+        done
